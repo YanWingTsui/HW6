@@ -1,0 +1,88 @@
+namespace main_savitch_chapter10{
+     template <class Item>
+     binary_tree<Item>::binary_tree( ){
+     }
+     
+      bool isBST(Node* root, Node* l=NULL, Node* r=NULL) 
+          {  
+             if (root == NULL) 
+                return true;  
+
+             if (l != NULL and root->data < l->data) 
+                return false; 
+
+             if (r != NULL and root->data > r->data) 
+                return false; 
+
+             return isBST(root->left, l, root) && isBST(root->right, root, r);
+         } 
+     
+     
+       bool isCompleteUtil (struct Node* root, unsigned int index,unsigned int number_nodes) 
+         { 
+            if (root == NULL) 
+                return (true); 
+
+            if (index >= number_nodes) 
+                return (false); 
+
+            return (isCompleteUtil(root->left, 2*index + 1, number_nodes) && isCompleteUtil(root->right, 2*index + 2, number_nodes)); 
+        } 
+
+  bool isHeapUtil(struct Node* root) 
+        { 
+            if (root->left == NULL && root->right == NULL) 
+                return (true); 
+
+            if (root->right == NULL) 
+            { 
+                return (root->key >= root->left->key); 
+            } 
+            else
+            { 
+                if (root->key >= root->left->key && 
+                    root->key >= root->right->key) 
+                    return ((isHeapUtil(root->left)) && (isHeapUtil(root->right))); 
+                else
+                    return (false); 
+            } 
+        } 
+
+  bool isHeap(struct Node* root) 
+        { 
+            unsigned int node_count = countNodes(root); 
+            unsigned int index = 0; 
+
+            if (isCompleteUtil(root, index, node_count) && isHeapUtil(root)) 
+                return true; 
+            return false; 
+        } 
+        
+  bool MaxHeap(int arr[], int i, int n) 
+        { 
+            if (i > (n - 2)/2) 
+                return true; 
+
+            if (arr[i] >= arr[2*i + 1] && arr[i] >= arr[2*i + 2] && MaxHeap(arr, 2*i + 1, n) && MaxHeap(arr, 2*i + 2, n)) 
+                return true; 
+
+            return false; 
+        } 
+       
+  bool MinHeap(int level[], int n) 
+        { 
+            for (int i=(n/2-1) ; i>=0 ; i--) 
+            { 
+                if (level[i] > level[2 * i + 1]) 
+                return false; 
+  
+                if (2*i + 2 < n) 
+                { 
+                    if (level[i] > level[2 * i + 2]) 
+                    return false; 
+                } 
+            } 
+            return true; 
+      } 
+
+}
